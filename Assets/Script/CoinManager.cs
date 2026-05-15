@@ -12,6 +12,8 @@ public class CoinManager : MonoBehaviour
     public static CoinManager Instance { get { return _instance; } }
     public static Action OnAddPoints;
 
+    public static Action OnBonusLife;
+
     private void Awake()
     {
         if (_instance != null)
@@ -35,7 +37,14 @@ public class CoinManager : MonoBehaviour
 
     private void AddAmountInternal(float amount)
     {
+        float before = _amount;
         _amount += amount;
-        OnAddPoints?.Invoke(); // ← AQUÍ es donde debe estar
+        OnAddPoints?.Invoke();
+
+         if (Mathf.FloorToInt(_amount / 10) > Mathf.FloorToInt(before / 10))
+        {
+            Debug.Log("¡Bonus life disparado! Monedas: " + _amount); // ← temporal
+            OnBonusLife?.Invoke();
+        }
     }
 }
