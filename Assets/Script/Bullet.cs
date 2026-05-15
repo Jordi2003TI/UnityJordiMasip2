@@ -5,26 +5,26 @@ public class Bullet : MonoBehaviour
     public Vector2 dir = Vector2.zero;
     public float speed = 5f;
 
-
-    // Update is called once per frame
     void Update()
     {
-        Vector2 dir2 = dir * speed * Time.deltaTime;
-        Vector3 currentDir = new Vector3(dir.x, dir2.y,0);
-        transform.position += currentDir;        
-        
+        Vector3 movement = new Vector3(dir.x, dir.y, 0) * speed * Time.deltaTime;
+        transform.position += movement;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.SetActive(false);
+            // FIX: TakeDamage primero, luego destruir bala
+            PlayerHealth health = collision.gameObject.GetComponent<PlayerHealth>();
+            if (health != null)
+                health.TakeDamage();
+
             Destroy(gameObject);
         }
         else
         {
-            if(collision.gameObject.tag != "bullet")
+            if (collision.gameObject.tag != "bullet")
             {
                 Destroy(gameObject);
             }
