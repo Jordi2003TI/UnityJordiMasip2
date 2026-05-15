@@ -76,10 +76,27 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void AddLife()
+    {
+        currentLives++; 
+        Debug.Log("¡Vida extra! Vidas: " + currentLives);
+        OnLivesChanged?.Invoke();
+    }
+
     void Die()
     {
         Debug.Log("¡El jugador ha muerto!");
         gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        CoinManager.OnBonusLife += AddLife;
+    }
+
+    private void OnDisable()
+    {
+        CoinManager.OnBonusLife -= AddLife;
     }
 
     public int GetCurrentLives() => currentLives;
