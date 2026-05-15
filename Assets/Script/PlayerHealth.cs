@@ -29,16 +29,6 @@ public class PlayerHealth : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable()
-    {
-        CoinManager.OnBonusLife += AddLife;
-    }
-
-    private void OnDisable()
-    {
-        CoinManager.OnBonusLife -= AddLife;
-    }
-
     void Start()
     {
         currentLives = maxLives;
@@ -90,13 +80,6 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("¡El jugador ha muerto!");
         gameObject.SetActive(false);
-    }
-
-    public void AddLife()
-    {
-        currentLives++;
-        Debug.Log("¡Vida extra! Vidas: " + currentLives);
-        OnLivesChanged?.Invoke();
     }
 
     public int GetCurrentLives() => currentLives;
