@@ -16,6 +16,10 @@ public class testMovimientos : MonoBehaviour
     bool _jumpRequested;
     SpriteRenderer spriteRenderer;
 
+    [Header("Sonido")]
+    [SerializeField] AudioClip jumpSound;
+    AudioSource audioSource;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,6 +29,7 @@ public class testMovimientos : MonoBehaviour
         _jump = _playerInput.Player.Jump;
         anim = GetComponent<Animator>();
         _jump.performed += OnJump;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnDestroy(){
@@ -43,7 +48,14 @@ public class testMovimientos : MonoBehaviour
     void OnJump(InputAction.CallbackContext ctx)
     {
         if (_groundDetector != null && _groundDetector.isGrounded)
+            {                                      
             _jumpRequested = true;
+            if(jumpSound != null)
+            {
+                audioSource.PlayOneShot(jumpSound);
+            }
+            
+        } 
     }
 
 
