@@ -11,6 +11,11 @@ public class LivesText : MonoBehaviour
         _text = GetComponent<TextMeshProUGUI>();
     }
 
+    private void Awake()
+    {
+        _text = GetComponent<TextMeshProUGUI>(); // Awake siempre corre antes que Start
+    }
+
     private void OnEnable()
     {
         PlayerHealth.OnLivesChanged += ChangeText;
